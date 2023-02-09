@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{{ form(gridForm) }}
+
+    <h1>test</h1>
+
+
+    <div class="gridInputs box m-auto is-centered">
+        {% set numbers = 5 %}
+        {% for number in 1..numbers %}
+        <input class="sequence-number" id="box-{{ number }}" type="number" min="1" max="49" size="2"  onclick="focusThisBox({{ number }})">
+    {% endfor %}
+        lucky number :
+        <input class="sequence-number has-background-primary" id="box-lucky" type="number" min="1" max="10" size="2" onclick="focusLuckyBox()">
+        <hr>
+    </div>
+
+
+    {% set options = 49 %}
+
+    <div class="m-auto field is-grouped is-grouped-multiline has-background-primary column is-half is-flex is-justify-content-center is-align-content-space-evenly">
+        {% for option in 1..options %}
+        <p class="control">
+            <button class="button" id="option-{{ option }}" onclick="optionPressed({{ option }})" >
+                {{ option }}
+            </button>
+        </p>
+        {% endfor %}
+
+    </div>
+
+    <script>
+        let currentInput = document.querySelector('#box-1')
+
+        function focusThisBox(number){
+            currentInput = document.querySelector('#box-'+number)
+            enablingButtons()
+            console.log(number)
+            console.log(currentInput.id)
+            return currentInput
+        }
+        function focusLuckyBox(){
+            currentInput = document.querySelector('#box-lucky')
+            disablingButtons();
+            console.log(currentInput)
+            console.log(currentInput.id)
+            return currentInput
+        }
+        function optionPressed(e){
+            console.log(e)
+            console.log(currentInput)
+            currentInput.value=e
+            currentInput = currentInput.nextElementSibling
+            console.log(currentInput)
+            if(currentInput.id === "box-lucky"){
+                disablingButtons();
+            }
+            return currentInput
+        }
+        function disablingButtons(){
+            for (let disableButton = 11; disableButton <= 49; disableButton++){
+                document.querySelector('#option-'+disableButton).disabled=true;
+            }
+        }
+        function enablingButtons(){
+                for (let disableButton = 11; disableButton <= 49; disableButton++){
+                    document.querySelector('#option-'+disableButton).disabled=false;
+                }
+        }
+    </script>
+
+{% endblock %}
